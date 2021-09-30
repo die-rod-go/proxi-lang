@@ -22,6 +22,8 @@ void Proxi::runFile(std::string path)
 	myFile.close();
 
 	run(buffer.str());	//	run the file
+	if (hadError)
+		exit(EXIT_FAILURE);
 }
 
 void Proxi::runPrompt()
@@ -34,6 +36,7 @@ void Proxi::runPrompt()
 		if (line == "")	
 			break;	//	quit if no input
 		run(line);	//	run input
+		hadError = false; //	reset hadError so that syntax errors don't kill the session
 	}
 }
 

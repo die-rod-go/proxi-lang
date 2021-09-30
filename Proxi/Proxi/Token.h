@@ -1,7 +1,14 @@
 #pragma once
+#include <string>
+
 class Token
 {
 	const TokenType type;
+	const std::string lexeme;
+	//	const Object literal; - yeah how the fuck are you going to implement this
+	const int line;
+
+	Token(TokenType type, std::string lexeme, int line);
 
 };
 
@@ -17,13 +24,13 @@ enum TokenType {
 	LESS, LESS_EQUAL,		// < <=
 
 	// Literals.
-	IDENTIFIER, INTEGER, FLOAT, BOOLEAN, STRING,
+	IDENTIFIER, INTEGER, FLOATING_POINT, BOOLEAN, STRING_LIT, FUNCTION,
 
 	// Keywords.
 	AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NOV, OR,
 	PRINT, RETURN, SUPER, SELF, THIS, TRUE,
-	INT, FLOAT, BOOLEAN, STRING, WHILE,
+	INT, FLOAT, BOOL, STRING, WHILE,
 
-	EOF
+	END_OF_FILE
 };
 
