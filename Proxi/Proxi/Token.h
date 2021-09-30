@@ -1,18 +1,7 @@
 #pragma once
 #include <string>
 
-class Token
-{
-	const TokenType type;
-	const std::string lexeme;
-	//	const Object literal; - yeah how the fuck are you going to implement this
-	const int line;
-
-	Token(TokenType type, std::string lexeme, int line);
-
-};
-
-enum TokenType {
+enum TokenType {	//	put the enum info FIRST because not doing so causes a weird dependency issue
 	// Single-character tokens.
 	LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
 	COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
@@ -33,4 +22,17 @@ enum TokenType {
 
 	END_OF_FILE
 };
+
+class Token
+{
+	const TokenType type;
+	const std::string lexeme;
+	//	const Object literal; - yeah how the fuck are you going to implement this
+	const int line;
+
+	Token(TokenType type, std::string lexeme, int line);
+
+};
+
+
 

@@ -1,8 +1,11 @@
 #include "Proxi.h"
 
+
+bool Proxi::hadError = false;
+
 Proxi::Proxi()
 {
-	hadError = false;
+
 }
 
 void Proxi::error(int line, std::string message)
