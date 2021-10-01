@@ -13,7 +13,7 @@ enum TokenType {	//	put the enum info FIRST because not doing so causes a weird 
 	LESS, LESS_EQUAL,		// < <=
 
 	// Literals.
-	IDENTIFIER, INTEGER, FLOATING_POINT, BOOLEAN, STRING_LIT, FUNCTION,
+	IDENTIFIER, INTEGER, FLOATING_POINT, BOOLEAN, STRING_LIT, 
 
 	// Keywords.
 	AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NOV, OR,
@@ -23,14 +23,32 @@ enum TokenType {	//	put the enum info FIRST because not doing so causes a weird 
 	END_OF_FILE
 };
 
+class Literal
+{
+public:
+	bool boolLit;
+	int intLit;
+	float floatLit;
+	std::string stringLit;
+
+	Literal(bool boolLit, int intLit, float floatLit, std::string stringLit)
+	{
+		this->boolLit = boolLit;
+		this->intLit = intLit;
+		this->floatLit = floatLit;
+		this->stringLit = stringLit;
+	}
+};
+
 class Token
 {
+public:
 	const TokenType type;
 	const std::string lexeme;
-	//	const Object literal; - yeah how the fuck are you going to implement this
+	const Literal lit;
 	const int line;
-
-	Token(TokenType type, std::string lexeme, int line);
+	Token(TokenType type, std::string lexeme, Literal lit, int line);
+	std::string toString();
 
 };
 

@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iostream>
 #include <vector>
+#include "Token.h"
 
 class Proxi
 {
@@ -16,7 +17,7 @@ public:
 
 private:
 
-	void run(std::string file);
+	void run(std::string source);
 	static void report(int line, std::string location, std::string message);
 	
 

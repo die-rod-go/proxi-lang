@@ -10,7 +10,7 @@ https://craftinginterpreters.com/
 
 int main(int argc, char* argv[])
 {
-	Proxi proxi = Proxi();
+	Proxi proxi;
 
 	if (argc == 1)
 		std::cout << "Usage: cproxi [script]" << std::endl;

@@ -5,7 +5,7 @@ bool Proxi::hadError = false;
 
 Proxi::Proxi()
 {
-
+	
 }
 
 void Proxi::error(int line, std::string message)
@@ -43,8 +43,15 @@ void Proxi::runPrompt()
 	}
 }
 
-void Proxi::run(std::string file)
+void Proxi::run(std::string source)
 {
+	//Scanner scanner(source);
+	std::vector<Token> tokens; // = Scanner.scanTokens();
+
+	for (Token token : tokens)
+	{
+		std::cout << token.toString() << std::endl;
+	}
 }
 
 void Proxi::report(int line, std::string location, std::string message)
