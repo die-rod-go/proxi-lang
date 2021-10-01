@@ -18,6 +18,9 @@ private:
 	int start;
 	int current;
 	int line;
+
+	int currentOnLine; //	where on the current line it is (for debugging purposes)
+
 	const std::string source;
 	std::vector<Token> tokens;
 
@@ -26,13 +29,15 @@ private:
 	char advance();
 	void addToken(TokenType type);
 	void addToken(TokenType type, Literal lit);
-	bool match(char expected);	//	checks if two characters are equal
+	bool match(char expected);	//	checks if two characters are equal, advances if tey are
 	char peek();
 	char peekNext();
 
 	void string();
 	void number();
 	void identifier();
+
+	int getLength(int start, int current);
 
 	std::unordered_map<std::string, TokenType> keywords;
 

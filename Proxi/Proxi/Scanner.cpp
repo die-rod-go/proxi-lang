@@ -1,6 +1,6 @@
 #include "Scanner.h"
 
-Scanner::Scanner(std::string source) : source(source), nullLiteral(false, -1, -1, "null")
+Scanner::Scanner(std::string source) : source(source), nullLiteral(false, -1, -1, "null", true)
 {
 	this->start = 0;
 	this->current = 0;
@@ -36,7 +36,7 @@ std::vector<Token> Scanner::scanTokens()
 {
 	while (!isAtEnd())
 	{
-		//	at the beginning of the next leceme
+		//	at the beginning of the next lexeme
 		start = current;
 		scanToken();
 	}
@@ -48,6 +48,10 @@ std::vector<Token> Scanner::scanTokens()
 
 bool Scanner::isAtEnd()
 {
+	std::cout << "current: " << current << std::endl;
+	std::cout << "line: " << line << std::endl;
+	std::cout << "currentOnLine: " << currentOnLine << std::endl;
+	std::cout << std::endl;
 	return current >= source.length();
 }
 
@@ -98,6 +102,7 @@ void Scanner::scanToken()
 
 		case '\n':
 			line++;
+			currentOnLine = 1;
 			break;
 
 		case '"': string(); break;
@@ -114,6 +119,7 @@ void Scanner::scanToken()
 
 char Scanner::advance()
 {
+	currentOnLine++;
 	return source[current++];
 }
 
@@ -124,7 +130,8 @@ void Scanner::addToken(TokenType type)
 
 void Scanner::addToken(TokenType type, Literal lit)
 {
-	std::string text = source.substr(start, current);
+	int length = getLength(start, current);
+	std::string text = source.substr(start, length);
 	tokens.push_back(Token(type, text, lit, line));
 }
 
@@ -135,6 +142,7 @@ bool Scanner::match(char expected)	//	checks if two characters are equal
 	if (source[current] != expected)
 		return false;
 
+	currentOnLine++;
 	current++;
 	return true;
 }
@@ -158,7 +166,10 @@ void Scanner::string()
 	while (peek() != '"' && !isAtEnd())
 	{
 		if (peek() == '\n')
+		{
 			line++;
+			currentOnLine = 1;
+		}
 		advance();
 	}
 
@@ -172,8 +183,9 @@ void Scanner::string()
 	advance();
 
 	//	Trim the surrounding quotes
-	std::string value = source.substr(start + 1, current - 1);
-	addToken(STRING, Literal(false, -1, -1, value));
+	int length = getLength(start + 1, current - 1);
+	std::string value = source.substr(start + 1, length);
+	addToken(STRING, Literal(value, false));
 }
 
 void Scanner::number()
@@ -191,15 +203,16 @@ void Scanner::number()
 			advance();
 	}
 
+	int length = getLength(start, current);
 	if (isFloat)
 	{
-		float value = std::stof(source.substr(start, current));
-		addToken(FLOAT, Literal(false, -1, value, "null"));			
+		float value = std::stof(source.substr(start, length));
+		addToken(FLOAT, Literal(value, false));			
 	}
 	else
 	{
-		int value = std::stoi(source.substr(start, current));
-		addToken(FLOAT, Literal(false, value, -1, "null"));
+		int value = std::stoi(source.substr(start, length));
+		addToken(INTEGER, Literal(value, false));
 	}
 }
 
@@ -208,8 +221,9 @@ void Scanner::identifier()
 	while (isalnum(peek()))
 		advance();
 
+	int length = getLength(start, current);
 	TokenType type;
-	std::string text = source.substr(start, current);
+	std::string text = source.substr(start, length);
 
 	if (keywords.find(text) != keywords.end()) //	if keyword is in map/exists in the language
 		type = keywords.at(text);
@@ -217,4 +231,9 @@ void Scanner::identifier()
 		type = IDENTIFIER;
 
 	addToken(type);
+}
+
+int Scanner::getLength(int start, int current)
+{
+	return current - start;
 }
