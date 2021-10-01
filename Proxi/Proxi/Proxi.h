@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include "Token.h"
+#include "Scanner.h"
 
 class Proxi
 {

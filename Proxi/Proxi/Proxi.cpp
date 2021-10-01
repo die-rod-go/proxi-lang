@@ -45,8 +45,8 @@ void Proxi::runPrompt()
 
 void Proxi::run(std::string source)
 {
-	//Scanner scanner(source);
-	std::vector<Token> tokens; // = Scanner.scanTokens();
+	Scanner scanner(source);
+	std::vector<Token> tokens = scanner.scanTokens();
 
 	for (Token token : tokens)
 	{
