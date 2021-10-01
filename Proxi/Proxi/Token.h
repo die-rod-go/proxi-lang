@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <unordered_map>
 
 enum TokenType {	//	put the enum info FIRST because not doing so causes a weird dependency issue
 	// Single-character tokens.
@@ -75,6 +76,10 @@ public:
 	const int line;
 	Token(TokenType type, std::string lexeme, Literal lit, int line);
 	std::string toString();
+
+
+private:
+	std::unordered_map<TokenType, std::string> enumStrings;	//	for outputting enums - mostly for debugging
 
 };
 

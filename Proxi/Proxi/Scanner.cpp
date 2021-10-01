@@ -26,7 +26,6 @@ Scanner::Scanner(std::string source) : source(source), nullLiteral(false, -1, -1
 	keywords.emplace("float",	FLOAT);
 	keywords.emplace("string",	STRING);
 	keywords.emplace("while",	WHILE);
-
 }
 /*AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NOV, OR,
 	PRINT, RETURN, SUPER, SELF, THIS, TRUE,
@@ -48,10 +47,7 @@ std::vector<Token> Scanner::scanTokens()
 
 bool Scanner::isAtEnd()
 {
-	std::cout << "current: " << current << std::endl;
-	std::cout << "line: " << line << std::endl;
-	std::cout << "currentOnLine: " << currentOnLine << std::endl;
-	std::cout << std::endl;
+	//printCurrent();
 	return current >= source.length();
 }
 
@@ -185,7 +181,7 @@ void Scanner::string()
 	//	Trim the surrounding quotes
 	int length = getLength(start + 1, current - 1);
 	std::string value = source.substr(start + 1, length);
-	addToken(STRING, Literal(value, false));
+	addToken(STRING_LIT, Literal(value, false));
 }
 
 void Scanner::number()
@@ -236,4 +232,12 @@ void Scanner::identifier()
 int Scanner::getLength(int start, int current)
 {
 	return current - start;
+}
+
+void Scanner::printCurrent()
+{
+	std::cout << "current: " << current << std::endl;
+	std::cout << "line: " << line << std::endl;
+	std::cout << "currentOnLine: " << currentOnLine << std::endl;
+	std::cout << std::endl;
 }

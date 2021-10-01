@@ -41,5 +41,8 @@ private:
 
 	std::unordered_map<std::string, TokenType> keywords;
 
+	// debug
+	void printCurrent();
+
 };
 

@@ -51,6 +51,7 @@ void Proxi::run(std::string source)
 	for (Token token : tokens)
 	{
 		std::cout << token.toString() << std::endl;
+		std::cout << std::endl;
 	}
 }
 
