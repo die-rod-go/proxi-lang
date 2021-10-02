@@ -14,7 +14,7 @@ enum TokenType {	//	put the enum info FIRST because not doing so causes a weird 
 	LESS, LESS_EQUAL,		// < <=
 
 	// Literals.
-	IDENTIFIER, INTEGER, FLOATING_POINT, BOOLEAN, STRING_LIT, 
+	IDENTIFIER, INTEGER, FLOATING_POINT, STRING_LIT, 
 
 	// Keywords.
 	AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NOV, OR,
@@ -28,23 +28,15 @@ class Literal
 {
 public:
 	bool isNull = true;
-	bool boolLit;
 	int intLit;
 	float floatLit;
 	std::string stringLit;
 
-	Literal(bool boolLit, int intLit, float floatLit, std::string stringLit, bool isNull)
+	Literal(int intLit, float floatLit, std::string stringLit, bool isNull)
 	{
-		this->boolLit = boolLit;
 		this->intLit = intLit;
 		this->floatLit = floatLit;
 		this->stringLit = stringLit;
-		this->isNull = isNull;
-	}
-
-	Literal(bool boolLit, bool isNull)
-	{
-		this->boolLit = boolLit;
 		this->isNull = isNull;
 	}
 

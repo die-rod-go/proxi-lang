@@ -12,7 +12,7 @@
 	LESS, LESS_EQUAL,		// < <=
 
 	// Literals.
-	IDENTIFIER, INTEGER, FLOATING_POINT, BOOLEAN, STRING_LIT,
+	IDENTIFIER, INTEGER, FLOATING_POINT, STRING_LIT,
 
 	// Keywords.
 	AND, CLASS, ELSE, FALSE, FUN, FOR, IF, NOV, OR,
@@ -48,7 +48,6 @@ Token::Token(TokenType type, std::string lexeme, Literal lit, int line):
 	enumStrings.emplace(IDENTIFIER,		"IDENTIFIER");
 	enumStrings.emplace(INTEGER,		"INTEGER");
 	enumStrings.emplace(FLOATING_POINT,	"FLOATING_POINT");
-	enumStrings.emplace(BOOLEAN,		"BOOLEAN");
 	enumStrings.emplace(STRING_LIT,		"STRING_LIT");
 
 	enumStrings.emplace(AND,			"AND");

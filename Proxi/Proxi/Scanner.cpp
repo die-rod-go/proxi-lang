@@ -1,6 +1,6 @@
 #include "Scanner.h"
 
-Scanner::Scanner(std::string source) : source(source), nullLiteral(false, -1, -1, "null", true)
+Scanner::Scanner(std::string source) : source(source), nullLiteral(-1, -1, "null", true)
 {
 	this->start = 0;
 	this->current = 0;
