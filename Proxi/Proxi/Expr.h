@@ -2,23 +2,26 @@
 
 template <typename R>
 class Visitor {
-		virtual R visitBinaryExpr(Binary expr);
-		virtual R visitGroupingExpr(Grouping expr);
-		virtual R visitLiteralExpressionExpr(LiteralExpression expr);
-		virtual R visitUnaryExpr(Unary expr);
+public:
+	virtual R visitBinaryExpr(Binary expr);
+	virtual R visitGroupingExpr(Grouping expr);
+	virtual R visitLiteralExpressionExpr(LiteralExpression expr);
+	virtual R visitUnaryExpr(Unary expr);
 };
 
 class Expr {
-template<typename R>
-	R accept(R visitor);
+public:
+	template<typename R>
+	R accept(Visitor<R> visitor);
 };
 
 class Binary : public Expr {
-	Binary(Expr left, Token oper, Expr right) : left(left), oper(oper), right(right)	{
+public:
+	Binary(Expr left, Token oper, Expr right) : left(left), oper(oper), right(right) {
 	}
 
-	template<typename R>
-	R accept(R visitor) {
+	template<typename T>
+	T accept(T visitor) {
 		return visitor.visitBinaryExpr(this);
 	}
 
@@ -28,11 +31,12 @@ class Binary : public Expr {
 };
 
 class Grouping : public Expr {
-	Grouping(Expr expression) : expression(expression)	{
+public:
+	Grouping(Expr expression) : expression(expression) {
 	}
 
-	template<typename R>
-	R accept(R visitor) {
+	template<typename T>
+	T accept(T visitor) {
 		return visitor.visitGroupingExpr(this);
 	}
 
@@ -40,11 +44,12 @@ class Grouping : public Expr {
 };
 
 class LiteralExpression : public Expr {
-	LiteralExpression(Literal lit, TokenType type) : lit(lit), type(type)	{
+public:
+	LiteralExpression(Literal lit, TokenType type) : lit(lit), type(type) {
 	}
 
-	template<typename R>
-	R accept(R visitor) {
+	template<typename T>
+	T accept(T visitor) {
 		return visitor.visitLiteralExpressionExpr(this);
 	}
 
@@ -53,15 +58,17 @@ class LiteralExpression : public Expr {
 };
 
 class Unary : public Expr {
-	Unary(Token oper, Expr right) : oper(oper), right(right)	{
+public:
+	Unary(Token oper, Expr right) : oper(oper), right(right) {
 	}
 
-	template<typename R>
-	R accept(R visitor) {
+	template<typename T>
+	T accept(T visitor) {
 		return visitor.visitUnaryExpr(this);
 	}
 
 	const Token oper;
 	const Expr right;
 };
+
 

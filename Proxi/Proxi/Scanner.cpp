@@ -181,7 +181,7 @@ void Scanner::string()
 	//	Trim the surrounding quotes
 	int length = getLength(start + 1, current - 1);
 	std::string value = source.substr(start + 1, length);
-	addToken(STRING_LIT, Literal(value, false));
+	addToken(STRING_LIT, Literal(value));
 }
 
 void Scanner::number()
@@ -203,12 +203,12 @@ void Scanner::number()
 	if (isFloat)
 	{
 		float value = std::stof(source.substr(start, length));
-		addToken(FLOAT, Literal(value, false));			
+		addToken(FLOAT, Literal(value));			
 	}
 	else
 	{
 		int value = std::stoi(source.substr(start, length));
-		addToken(INTEGER, Literal(value, false));
+		addToken(INTEGER, Literal(value));
 	}
 }
 

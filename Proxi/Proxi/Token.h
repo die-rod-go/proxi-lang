@@ -31,31 +31,45 @@ public:
 	int intLit;
 	float floatLit;
 	std::string stringLit;
+	TokenType type;
 
-	Literal(int intLit, float floatLit, std::string stringLit, bool isNull)
+	Literal(int intLit, float floatLit, std::string stringLit, bool isNull, TokenType type)
 	{
 		this->intLit = intLit;
 		this->floatLit = floatLit;
 		this->stringLit = stringLit;
 		this->isNull = isNull;
+		this->type = type;
 	}
 
-	Literal(int intLit, bool isNull)
+	Literal(int intLit)
 	{
+		this->floatLit = -1;
+		this->stringLit = "NULL";
+
 		this->intLit = intLit;
-		this->isNull = isNull;
+		this->isNull = false;
+		this->type = INTEGER;
 	}
 
-	Literal(float floatLit, bool isNull)
+	Literal(float floatLit)
 	{
+		this->intLit = -1;
+		this->stringLit = "NULL";
+
 		this->floatLit = floatLit;
-		this->isNull = isNull;
+		this->isNull = false;
+		this->type = FLOATING_POINT;
 	}
 
-	Literal(std::string stringLit, bool isNull)
+	Literal(std::string stringLit)
 	{
+		this->intLit = -1;
+		this->floatLit = -1;
+
 		this->stringLit = stringLit;
-		this->isNull = isNull;
+		this->isNull = false;
+		this->type = STRING_LIT;
 	}
 
 	Literal(bool isNull)
@@ -64,6 +78,7 @@ public:
 		this->floatLit = -1;
 		this->stringLit = "NULL";
 		this->isNull = true;
+		this->type = NOV;
 	}
 };
 
