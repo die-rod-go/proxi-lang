@@ -1,23 +1,27 @@
 #include "Token.h"
 
+class Binary;
+class Grouping;
+class LiteralExpression;
+class Unary;
+
 template <typename R>
 class Visitor {
-public:
-	virtual R visitBinaryExpr(Binary expr);
-	virtual R visitGroupingExpr(Grouping expr);
-	virtual R visitLiteralExpressionExpr(LiteralExpression expr);
-	virtual R visitUnaryExpr(Unary expr);
+	virtual R visitBinaryExpr(Binary expr) { R temp; return temp; };
+	virtual R visitGroupingExpr(Grouping expr) { R temp; return temp; };
+	virtual R visitLiteralExpressionExpr(LiteralExpression expr) { R temp; return temp; };
+	virtual R visitUnaryExpr(Unary expr) { R temp; return temp; };
 };
 
 class Expr {
 public:
 	template<typename R>
-	R accept(Visitor<R> visitor);
+	R accept(Visitor<R> visitor) { R temp; return temp; };
 };
 
 class Binary : public Expr {
 public:
-	Binary(Expr left, Token oper, Expr right) : left(left), oper(oper), right(right) {
+	Binary(Expr left, Token oper, Expr right) : left(left), oper(oper), right(right)	{
 	}
 
 	template<typename T>
@@ -32,7 +36,7 @@ public:
 
 class Grouping : public Expr {
 public:
-	Grouping(Expr expression) : expression(expression) {
+	Grouping(Expr expression) : expression(expression)	{
 	}
 
 	template<typename T>
@@ -45,7 +49,7 @@ public:
 
 class LiteralExpression : public Expr {
 public:
-	LiteralExpression(Literal lit, TokenType type) : lit(lit), type(type) {
+	LiteralExpression(Literal lit, TokenType type) : lit(lit), type(type)	{
 	}
 
 	template<typename T>
@@ -59,7 +63,7 @@ public:
 
 class Unary : public Expr {
 public:
-	Unary(Token oper, Expr right) : oper(oper), right(right) {
+	Unary(Token oper, Expr right) : oper(oper), right(right)	{
 	}
 
 	template<typename T>
@@ -70,5 +74,4 @@ public:
 	const Token oper;
 	const Expr right;
 };
-
 
