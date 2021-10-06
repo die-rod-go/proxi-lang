@@ -1,6 +1,6 @@
 #include "Scanner.h"
 
-Scanner::Scanner(std::string source) : source(source), nullLiteral(-1, -1, "null", true)
+Scanner::Scanner(std::string source) : source(source), nullLiteral(true)
 {
 	this->start = 0;
 	this->current = 0;
@@ -131,7 +131,7 @@ void Scanner::addToken(TokenType type, Literal lit)
 	tokens.push_back(Token(type, text, lit, line));
 }
 
-bool Scanner::match(char expected)	//	checks if two characters are equal
+bool Scanner::match(char expected)	//	checks if two characters are equal - conditional advance
 {
 	if (isAtEnd()) 
 		return false;

@@ -145,6 +145,7 @@
     <ClCompile Include="Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Expr.h" />
     <ClInclude Include="Proxi.h" />
     <ClInclude Include="Scanner.h" />
     <ClInclude Include="Token.h" />

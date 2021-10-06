@@ -57,6 +57,14 @@ public:
 		this->stringLit = stringLit;
 		this->isNull = isNull;
 	}
+
+	Literal(bool isNull)
+	{
+		this->intLit = -1;
+		this->floatLit = -1;
+		this->stringLit = "NULL";
+		this->isNull = true;
+	}
 };
 
 class Token
@@ -72,6 +80,7 @@ public:
 
 private:
 	std::unordered_map<TokenType, std::string> enumStrings;	//	for outputting enums - mostly for debugging
+	void emplaceMap();
 
 };
 
