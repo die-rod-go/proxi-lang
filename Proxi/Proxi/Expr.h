@@ -16,7 +16,7 @@ class Visitor {
 
 class Expr {
 public:
-	template<typename R>
+	template <typename R>
 	R accept(Visitor<R> visitor) { R temp; return temp; };
 };
 
