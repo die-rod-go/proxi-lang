@@ -1,4 +1,5 @@
 #include "Token.h"
+#include <iostream>
 
 class Binary;
 class Grouping;

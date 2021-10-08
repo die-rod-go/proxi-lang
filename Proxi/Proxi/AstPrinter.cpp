@@ -1,5 +1,14 @@
 #include "AstPrinter.h"
 
+void AstPrinter::test()
+{
+    LiteralExpression lit(Literal(13), INTEGER);
+    Expr *expression = &lit; 
+    AstPrinter printer;
+    printer.print(*expression);
+
+}
+
 std::string AstPrinter::print(Expr expr)
 {
     return expr.accept(*this);

@@ -7,9 +7,13 @@ https://craftinginterpreters.com/
 
 #include <iostream>
 #include "Proxi.h"
+#include "AstPrinter.h"
 
 int main(int argc, char* argv[])
 {
+	AstPrinter printer;
+	printer.test();
+
 	Proxi proxi;
 	//std::cout << argc << std::endl;
 
@@ -28,5 +32,6 @@ int main(int argc, char* argv[])
 
 	//std::cout << "quit" << std::endl;
 
+	system("pause");
 	return EXIT_SUCCESS;
 }
