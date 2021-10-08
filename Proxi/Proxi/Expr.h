@@ -1,78 +1,91 @@
 #include "Token.h"
 #include <iostream>
 
+template<typename T>
 class Binary;
+
+template<typename T>
 class Grouping;
+
+template<typename T>
 class LiteralExpression;
+
+template<typename T>
 class Unary;
 
-template <typename R>
+template <typename T>
 class Visitor {
-	virtual R visitBinaryExpr(Binary expr) { R temp; return temp; };
-	virtual R visitGroupingExpr(Grouping expr) { R temp; return temp; };
-	virtual R visitLiteralExpressionExpr(LiteralExpression expr) { R temp; return temp; };
-	virtual R visitUnaryExpr(Unary expr) { R temp; return temp; };
+public:
+	virtual T visitBinaryExpr(Binary<T> expr) { T temp;  return temp; };
+	virtual T visitGroupingExpr(Grouping<T> expr) { T temp;  return temp; };
+	virtual T visitLiteralExpressionExpr(LiteralExpression<T> expr) { T temp;  return temp; };
+	virtual T visitUnaryExpr(Unary<T> expr) { T temp;  return temp; };
 };
 
-class Expr {
+
+template <typename T>
+class Expr { // visitable
 public:
-	template <typename R>
-	R accept(Visitor<R> visitor) { R temp; return temp; };
+	virtual T accept(Visitor<T> visitor) { std::cout << "please" << std::endl; T temp; return temp; };
 };
 
-class Binary : public Expr {
+template<typename T>
+class Binary : public Expr<T> {
 public:
-	Binary(Expr left, Token oper, Expr right) : left(left), oper(oper), right(right)	{
+	Binary(Expr<T> left, Token oper, Expr<T> right) : left(left), oper(oper), right(right)	{
 	}
 
-	template<typename T>
-	T accept(T visitor) {
-		return visitor.visitBinaryExpr(this);
+	T accept(Visitor<T> visitor) {
+		return visitor.visitBinaryExpr(*this);
 	}
 
-	const Expr left;
+	const Expr<T> left;
 	const Token oper;
-	const Expr right;
+	const Expr<T> right;
 };
 
-class Grouping : public Expr {
+template<typename T>
+class Grouping : public Expr<T> {
 public:
-	Grouping(Expr expression) : expression(expression)	{
+	Grouping(Expr<T> expression) : expression(expression)	{
 	}
 
 	template<typename T>
-	T accept(T visitor) {
-		return visitor.visitGroupingExpr(this);
+	T accept(Visitor<T> visitor) {
+		return visitor.visitGroupingExpr(*this);
 	}
 
-	const Expr expression;
+	const Expr<T> expression;
 };
 
-class LiteralExpression : public Expr {
+template<typename T>
+class LiteralExpression : public Expr<T> {
 public:
 	LiteralExpression(Literal lit, TokenType type) : lit(lit), type(type)	{
 	}
 
 	template<typename T>
-	T accept(T visitor) {
-		return visitor.visitLiteralExpressionExpr(this);
+	T accept(Visitor<T> visitor) {
+		std::cout << "visited" << std::endl;	//	this is for debugging to see if it called the right accept
+		return visitor.visitLiteralExpressionExpr(*this);
 	}
 
 	const Literal lit;
 	const TokenType type;
 };
 
-class Unary : public Expr {
+template<typename T>
+class Unary : public Expr<T> {
 public:
-	Unary(Token oper, Expr right) : oper(oper), right(right)	{
+	Unary(Token oper, Expr<T> right) : oper(oper), right(right)	{
 	}
 
 	template<typename T>
-	T accept(T visitor) {
-		return visitor.visitUnaryExpr(this);
+	T accept(Visitor<T> visitor) {
+		return visitor.visitUnaryExpr(*this);
 	}
 
 	const Token oper;
-	const Expr right;
+	const Expr<T> right;
 };
 

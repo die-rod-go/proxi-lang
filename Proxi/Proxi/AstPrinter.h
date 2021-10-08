@@ -10,14 +10,14 @@ public:
 
 	void test();
 
-	std::string print(Expr expr);
+	std::string print(Expr<std::string> expr);
 
-	std::string visitBinaryExpr(Binary expr);
-	std::string visitGroupingExpr(Grouping expr);
+	std::string visitBinaryExpr(Binary<std::string> expr);
+	std::string visitGroupingExpr(Grouping<std::string> expr);
 	std::string visitLiteralExpr(Literal expr);
-	std::string visitUnaryExpr(Unary expr);
+	std::string visitUnaryExpr(Unary<std::string> expr);
 
 private:
-	std::string parenthesize(std::string name, std::vector<Expr> exprVector);
+	std::string parenthesize(std::string name, std::vector<Expr<std::string>> exprVector);
 };
 
