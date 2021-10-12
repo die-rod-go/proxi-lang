@@ -10,7 +10,7 @@ public:
 
 	void test();
 
-	std::string print(Expr<std::string> expr);
+	std::string print(Expr<std::string>* expr);
 
 	std::string visitBinaryExpr(Binary<std::string> expr);
 	std::string visitGroupingExpr(Grouping<std::string> expr);

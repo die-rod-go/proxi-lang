@@ -4,14 +4,13 @@ void AstPrinter::test()
 {
     LiteralExpression<std::string> lit(Literal(13), INTEGER);
     Expr<std::string> *expression = &lit; 
-    AstPrinter printer;
     expression->accept(*this);
-
+    print(expression);
 }
 
-std::string AstPrinter::print(Expr<std::string> expr)
+std::string AstPrinter::print(Expr<std::string>* expr)
 {
-    return expr.accept(*this);
+    return expr->accept(*this);
 }
 
 std::string AstPrinter::visitBinaryExpr(Binary<std::string> expr)

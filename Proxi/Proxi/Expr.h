@@ -50,7 +50,6 @@ public:
 	Grouping(Expr<T> expression) : expression(expression)	{
 	}
 
-	template<typename T>
 	T accept(Visitor<T> visitor) {
 		return visitor.visitGroupingExpr(*this);
 	}
@@ -64,7 +63,6 @@ public:
 	LiteralExpression(Literal lit, TokenType type) : lit(lit), type(type)	{
 	}
 
-	template<typename T>
 	T accept(Visitor<T> visitor) {
 		std::cout << "visited" << std::endl;	//	this is for debugging to see if it called the right accept
 		return visitor.visitLiteralExpressionExpr(*this);
@@ -80,7 +78,6 @@ public:
 	Unary(Token oper, Expr<T> right) : oper(oper), right(right)	{
 	}
 
-	template<typename T>
 	T accept(Visitor<T> visitor) {
 		return visitor.visitUnaryExpr(*this);
 	}
