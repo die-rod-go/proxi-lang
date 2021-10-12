@@ -1,32 +1,31 @@
 #include "Token.h"
 #include <iostream>
 
-template<typename T>
+template <typename T>
 class Binary;
 
-template<typename T>
+template <typename T>
 class Grouping;
 
-template<typename T>
+template <typename T>
 class LiteralExpression;
 
-template<typename T>
+template <typename T>
 class Unary;
 
 template <typename T>
 class Visitor {
 public:
-	virtual T visitBinaryExpr(Binary<T> expr) { T temp;  return temp; };
-	virtual T visitGroupingExpr(Grouping<T> expr) { T temp;  return temp; };
-	virtual T visitLiteralExpressionExpr(LiteralExpression<T> expr) { T temp;  return temp; };
-	virtual T visitUnaryExpr(Unary<T> expr) { T temp;  return temp; };
+		virtual T visitBinaryExpr(Binary<T> expr) { T temp;  return temp; };
+		virtual T visitGroupingExpr(Grouping<T> expr) { T temp;  return temp; };
+		virtual T visitLiteralExpressionExpr(LiteralExpression<T> expr) { T temp;  return temp; };
+		virtual T visitUnaryExpr(Unary<T> expr) { T temp;  return temp; };
 };
 
-
-template <typename T>
-class Expr { // visitable
+template<typename T>
+class Expr {
 public:
-	virtual T accept(Visitor<T> visitor) { std::cout << "please" << std::endl; T temp; return temp; };
+	virtual T accept(Visitor<T>* visitor) { T temp;  return temp; };
 };
 
 template<typename T>
@@ -35,8 +34,8 @@ public:
 	Binary(Expr<T> left, Token oper, Expr<T> right) : left(left), oper(oper), right(right)	{
 	}
 
-	T accept(Visitor<T> visitor) {
-		return visitor.visitBinaryExpr(*this);
+	T accept(Visitor<T>* visitor) {
+		return visitor->visitBinaryExpr(*this);
 	}
 
 	const Expr<T> left;
@@ -50,8 +49,8 @@ public:
 	Grouping(Expr<T> expression) : expression(expression)	{
 	}
 
-	T accept(Visitor<T> visitor) {
-		return visitor.visitGroupingExpr(*this);
+	T accept(Visitor<T>* visitor) {
+		return visitor->visitGroupingExpr(*this);
 	}
 
 	const Expr<T> expression;
@@ -63,9 +62,8 @@ public:
 	LiteralExpression(Literal lit, TokenType type) : lit(lit), type(type)	{
 	}
 
-	T accept(Visitor<T> visitor) {
-		std::cout << "visited" << std::endl;	//	this is for debugging to see if it called the right accept
-		return visitor.visitLiteralExpressionExpr(*this);
+	T accept(Visitor<T>* visitor) {
+		return visitor->visitLiteralExpressionExpr(*this);
 	}
 
 	const Literal lit;
@@ -78,8 +76,8 @@ public:
 	Unary(Token oper, Expr<T> right) : oper(oper), right(right)	{
 	}
 
-	T accept(Visitor<T> visitor) {
-		return visitor.visitUnaryExpr(*this);
+	T accept(Visitor<T>* visitor) {
+		return visitor->visitUnaryExpr(*this);
 	}
 
 	const Token oper;

@@ -4,13 +4,12 @@ void AstPrinter::test()
 {
     LiteralExpression<std::string> lit(Literal(13), INTEGER);
     Expr<std::string> *expression = &lit; 
-    expression->accept(*this);
-    print(expression);
+    std::cout << print(expression) << std::endl;
 }
 
 std::string AstPrinter::print(Expr<std::string>* expr)
 {
-    return expr->accept(*this);
+    return expr->accept(this);
 }
 
 std::string AstPrinter::visitBinaryExpr(Binary<std::string> expr)
@@ -29,17 +28,18 @@ std::string AstPrinter::visitGroupingExpr(Grouping<std::string> expr)
     return parenthesize("group", exprList);
 }
 
-std::string AstPrinter::visitLiteralExpr(Literal expr)
+std::string AstPrinter::visitLiteralExpressionExpr(LiteralExpression<std::string> expr)
 {
-    if (expr.isNull)
+    std::cout << "got here" << std::endl;
+    if (expr.lit.isNull)
         return "NOV";
     
     if (expr.type == INTEGER)
-        return std::to_string(expr.intLit);
+        return std::to_string(expr.lit.intLit);
     else if (expr.type == FLOATING_POINT)
-        return std::to_string(expr.floatLit);
+        return std::to_string(expr.lit.floatLit);
     else if (expr.type == STRING_LIT)
-        return expr.stringLit;
+        return expr.lit.stringLit;
 }
 
 std::string AstPrinter::visitUnaryExpr(Unary<std::string> expr)
@@ -55,7 +55,7 @@ std::string AstPrinter::parenthesize(std::string name, std::vector<Expr<std::str
     for (Expr<std::string> expr : exprVector)
     {
         name += " ";
-        name += expr.accept(*this);
+        name += expr.accept(this);
     }
 
     name += ")";

@@ -14,7 +14,7 @@ public:
 
 	std::string visitBinaryExpr(Binary<std::string> expr);
 	std::string visitGroupingExpr(Grouping<std::string> expr);
-	std::string visitLiteralExpr(Literal expr);
+	std::string visitLiteralExpressionExpr(LiteralExpression<std::string> expr);
 	std::string visitUnaryExpr(Unary<std::string> expr);
 
 private:
