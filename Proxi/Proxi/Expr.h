@@ -38,9 +38,9 @@ public:
 		return visitor->visitBinaryExpr(*this);
 	}
 
-	const Expr<T> left;
-	const Token oper;
-	const Expr<T> right;
+	Expr<T> left;
+	Token oper;
+	Expr<T> right;
 };
 
 template<typename T>
@@ -53,7 +53,7 @@ public:
 		return visitor->visitGroupingExpr(*this);
 	}
 
-	const Expr<T> expression;
+	Expr<T> expression;
 };
 
 template<typename T>
@@ -66,8 +66,8 @@ public:
 		return visitor->visitLiteralExpressionExpr(*this);
 	}
 
-	const Literal lit;
-	const TokenType type;
+	Literal lit;
+	TokenType type;
 };
 
 template<typename T>
@@ -80,7 +80,7 @@ public:
 		return visitor->visitUnaryExpr(*this);
 	}
 
-	const Token oper;
-	const Expr<T> right;
+	Token oper;
+	Expr<T> right;
 };
 
