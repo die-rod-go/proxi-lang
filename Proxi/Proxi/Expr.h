@@ -16,10 +16,10 @@ class Unary;
 template <typename T>
 class Visitor {
 public:
-		virtual T visitBinaryExpr(Binary<T> expr) { T temp;  return temp; };
-		virtual T visitGroupingExpr(Grouping<T> expr) { T temp;  return temp; };
-		virtual T visitLiteralExpressionExpr(LiteralExpression<T> expr) { T temp;  return temp; };
-		virtual T visitUnaryExpr(Unary<T> expr) { T temp;  return temp; };
+	virtual T visitBinaryExpr(Binary<T> expr) { std::cout << "base binary" << std::endl; T temp;  return temp; };
+	virtual T visitGroupingExpr(Grouping<T> expr) { std::cout << "base group" << std::endl; T temp;  return temp; };
+	virtual T visitLiteralExpressionExpr(LiteralExpression<T> expr) { std::cout << "base literal" << std::endl; T temp;  return temp; };
+	virtual T visitUnaryExpr(Unary<T> expr) { std::cout << "base unary" << std::endl; T temp;  return temp; };
 };
 
 template<typename T>
@@ -31,29 +31,31 @@ public:
 template<typename T>
 class Binary : public Expr<T> {
 public:
-	Binary(Expr<T> left, Token oper, Expr<T> right) : left(left), oper(oper), right(right)	{
+	Binary(Expr<T> left, Token oper, Expr<T> right) : left(&left), oper(oper), right(&right)	{
 	}
 
 	T accept(Visitor<T>* visitor) {
+		std::cout << "Binary" << std::endl;
 		return visitor->visitBinaryExpr(*this);
 	}
 
-	Expr<T> left;
+	Expr<T>* left;
 	Token oper;
-	Expr<T> right;
+	Expr<T>* right;
 };
 
 template<typename T>
 class Grouping : public Expr<T> {
 public:
-	Grouping(Expr<T> expression) : expression(expression)	{
+	Grouping(Expr<T> expression) : expression(&expression)	{
 	}
 
 	T accept(Visitor<T>* visitor) {
+		std::cout << "Grouping" << std::endl;
 		return visitor->visitGroupingExpr(*this);
 	}
 
-	Expr<T> expression;
+	Expr<T>* expression;
 };
 
 template<typename T>
@@ -63,6 +65,7 @@ public:
 	}
 
 	T accept(Visitor<T>* visitor) {
+		std::cout << "Literal" << std::endl;
 		return visitor->visitLiteralExpressionExpr(*this);
 	}
 
@@ -73,14 +76,15 @@ public:
 template<typename T>
 class Unary : public Expr<T> {
 public:
-	Unary(Token oper, Expr<T> right) : oper(oper), right(right)	{
+	Unary(Token oper, Expr<T> right) : oper(oper), right(&right)	{
 	}
 
 	T accept(Visitor<T>* visitor) {
+		std::cout << "Unary" << std::endl;
 		return visitor->visitUnaryExpr(*this);
 	}
 
 	Token oper;
-	Expr<T> right;
+	Expr<T>* right;
 };
 
