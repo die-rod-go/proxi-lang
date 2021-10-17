@@ -27,14 +27,16 @@ enum TokenType {	//	put the enum info FIRST because not doing so causes a weird 
 class Literal
 {
 public:
+	bool boolLit;
 	bool isNull = true;
 	int intLit;
 	float floatLit;
 	std::string stringLit;
 	TokenType type;
 
-	Literal(int intLit, float floatLit, std::string stringLit, bool isNull, TokenType type)
+	Literal(bool boolLit, int intLit, float floatLit, std::string stringLit, bool isNull, TokenType type)
 	{
+		this->boolLit = boolLit;
 		this->intLit = intLit;
 		this->floatLit = floatLit;
 		this->stringLit = stringLit;
@@ -72,8 +74,22 @@ public:
 		this->type = STRING_LIT;
 	}
 
-	Literal(bool isNull)
+	Literal(bool boolLit)
 	{
+		this->boolLit;
+		this->intLit = -1;
+		this->floatLit = -1;
+		this->stringLit = "NULL";
+		this->isNull = true;
+		if (boolLit)
+			this->type = TRUE;
+		else
+			this->type = FALSE;
+	}
+
+	Literal(TokenType type)
+	{
+		this->boolLit = false;
 		this->intLit = -1;
 		this->floatLit = -1;
 		this->stringLit = "NULL";

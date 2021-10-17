@@ -1,14 +1,19 @@
 #include "AstPrinter.h"
+#include <iostream>
 
 void AstPrinter::test()
 {
     
+    LiteralExpression<std::string> lit(Literal(123));    
+    Unary<std::string> unary(Token(MINUS, "-", Literal(true), 1), lit); 
+    Grouping<std::string> grouping(lit); 
+
     Binary<std::string> binary(
-        Unary<std::string>(Token(MINUS, "-", Literal(true), 1), LiteralExpression<std::string>(Literal(123), INTEGER)),
+        unary,
         Token(STAR, "*", Literal(true), 1),
-        Grouping<std::string>(LiteralExpression<std::string>(Literal(45.67f), FLOATING_POINT))
+        grouping
         );
-    
+
     Expr<std::string> *expression = &binary; 
     std::cout << print(expression) << std::endl;
 }
@@ -30,14 +35,14 @@ std::string AstPrinter::visitGroupingExpr(Grouping<std::string> expr)
 
 std::string AstPrinter::visitLiteralExpressionExpr(LiteralExpression<std::string> expr)
 {
-    if (expr.lit.isNull)
+    if (expr.lit.type == NOV)
         return "NOV";
     
-    if (expr.type == INTEGER)
+    if (expr.lit.type == INTEGER)
         return std::to_string(expr.lit.intLit);
-    else if (expr.type == FLOATING_POINT)
+    else if (expr.lit.type == FLOATING_POINT)
         return std::to_string(expr.lit.floatLit);
-    else if (expr.type == STRING_LIT)
+    else if (expr.lit.type == STRING_LIT)
         return expr.lit.stringLit;
 }
 
