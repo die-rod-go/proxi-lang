@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <unordered_map>
+#include <iostream>
 
 enum class TokenType {	//	put the enum info FIRST because not doing so causes a weird dependency issue
 	// Single-character tokens.
@@ -24,7 +25,7 @@ enum class TokenType {	//	put the enum info FIRST because not doing so causes a 
 	END_OF_FILE
 };
 
-class Literal
+class Literal_Token
 {
 public:
 	bool isNull = true;
@@ -36,28 +37,28 @@ public:
 	std::string sValue;
 	bool bValue;
 
-	Literal(int intLit)
+	Literal_Token(int intLit)
 	{
 		this->iValue = intLit;
 		this->isNull = false;
 		this->type = TokenType::INTEGER;
 	}
 
-	Literal(float floatLit)
+	Literal_Token(float floatLit)
 	{
 		this->fValue = floatLit;
 		this->isNull = false;
 		this->type = TokenType::FLOATING_POINT;
 	}
 
-	Literal(std::string stringLit)
+	Literal_Token(std::string stringLit)
 	{
 		this->stringLit = stringLit;
 		this->isNull = false;
 		this->type = TokenType::STRING_LIT;
 	}
 
-	Literal(bool boolLit)
+	Literal_Token(bool boolLit)
 	{
 		this->bValue = boolLit;
 		this->isNull = false;
@@ -67,13 +68,24 @@ public:
 			this->type = TokenType::FALSE;
 	}
 
-	Literal(TokenType type)
+	Literal_Token(TokenType type)
 	{
 		this->isNull = true;
 		this->type = TokenType::NOV;
 	}
 
-	~Literal()
+	std::string toString()
+	{
+		if (type == TokenType::INTEGER)
+			return std::to_string(iValue);
+		else if (type == TokenType::FLOAT)
+			return std::to_string(fValue);
+		else if (type == TokenType::STRING)
+			return sValue;
+		//else if()
+	}
+
+	~Literal_Token()
 	{
 
 	}
@@ -84,9 +96,9 @@ class Token
 public:
 	const TokenType type;
 	const std::string lexeme;
-	const Literal lit;
+	const Literal_Token lit;
 	const int line;
-	Token(TokenType type, std::string lexeme, Literal lit, int line);
+	Token(TokenType type, std::string lexeme, Literal_Token lit, int line);
 	std::string toString();
 
 

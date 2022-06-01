@@ -1,80 +1,66 @@
+#pragma once
 #include "Token.h"
 
-template <typename T>
 class Binary;
-
-template <typename T>
 class Grouping;
-
-template <typename T>
-class LiteralExpression;
-
-template <typename T>
+class Literal;
 class Unary;
+class Visitor;
 
-template <typename T>
-class Visitor {
-public:
-		virtual T visitBinaryExpr(Binary<T> expr) { T temp;  return temp; };
-		virtual T visitGroupingExpr(Grouping<T> expr) { T temp;  return temp; };
-		virtual T visitLiteralExpressionExpr(LiteralExpression<T> expr) { T temp;  return temp; };
-		virtual T visitUnaryExpr(Unary<T> expr) { T temp;  return temp; };
-};
-
-template<typename T>
 class Expr {
 public:
-	virtual T accept(Visitor<T>* visitor) { T temp;  return temp; };
+	virtual Expr accept(Visitor& visitor) { };
+	virtual std::string toString() const { };
 };
 
-template<typename T>
-class Binary : public Expr<T> {
+class Visitor {
 public:
-	Binary(Expr<T>& left, Token oper, Expr<T>& right) : left(&left), oper(oper), right(&right) { }
+	virtual Expr visitBinaryExpr(Binary& expr) { };
+	virtual Expr visitGroupingExpr(Grouping& expr) { };
+	virtual Expr visitLiteralExpr(Literal& expr) { };
+	virtual Expr visitUnaryExpr(Unary& expr) { };
+};
 
-	T accept(Visitor<T>* visitor) {
-		return visitor->visitBinaryExpr(*this);
+class Binary : public Expr {
+public:
+	Binary(Expr &left, Token oper, Expr &right) : left(left), oper(oper), right(right) { }
+
+	Expr accept(Visitor &visitor) {
+		return visitor.visitBinaryExpr(*this);
 	}
 
-	Expr<T> *left;
-	Token oper;
-	Expr<T> *right;
+	const Expr &left;
+	const Token oper;
+	const Expr &right;
 };
 
-template<typename T>
-class Grouping : public Expr<T> {
+class Grouping : public Expr {
 public:
-	Grouping(Expr<T>& expression) : expression(&expression) { }
-
-	T accept(Visitor<T>* visitor) {
-		return visitor->visitGroupingExpr(*this);
+	Grouping(Expr expression) : expression(expression) { }
+	Expr accept(Visitor &visitor) {
+		return visitor.visitGroupingExpr(*this);
 	}
 
-	Expr<T> *expression;
+	const Expr &expression;
 };
 
-template<typename T>
-class LiteralExpression : public Expr<T> {
+class Literal : public Expr {
 public:
-	LiteralExpression(Literal lit) : lit(lit) { }
-
-	T accept(Visitor<T>* visitor) {
-		return visitor->visitLiteralExpressionExpr(*this);
+	Literal(Literal_Token lit) : lit(lit) { };
+	Expr accept(Visitor &visitor) {
+		return visitor.visitLiteralExpr(*this);
 	}
 
-	Literal lit;
+	const Literal_Token lit;
 };
 
-template<typename T>
-class Unary : public Expr<T> {
+class Unary : public Expr {
 public:
-	Unary(Token oper, Expr<T>& right) : oper(oper), right(&right) { }
-
-	T accept(Visitor<T>* visitor) {
-		return visitor->visitUnaryExpr(*this);
+	Unary(Token oper, Expr& expr) : oper(oper), right(expr) { }
+	Expr accept(Visitor& visitor) {
+		return visitor.visitUnaryExpr(*this);
 	}
 
-	Token oper;
-	Expr<T> *right;
+	const Token oper;
+	const Expr& right;
 };
-

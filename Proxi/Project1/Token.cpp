@@ -21,7 +21,7 @@
 
 	END_OF_FILE
 */
-Token::Token(TokenType type, std::string lexeme, Literal lit, int line):
+Token::Token(TokenType type, std::string lexeme, Literal_Token lit, int line):
 	type(type), lexeme(lexeme), lit(&lit), line(line)
 {
 	emplaceMap();

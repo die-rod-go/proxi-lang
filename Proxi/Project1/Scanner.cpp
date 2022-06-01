@@ -125,7 +125,7 @@ void Scanner::addToken(TokenType type)
 	addToken(type, nullLiteral);
 }
 
-void Scanner::addToken(TokenType type, Literal lit)
+void Scanner::addToken(TokenType type, Literal_Token lit)
 {
 	int length = getLength(start, current);
 	std::string text = source.substr(start, length);
@@ -182,7 +182,7 @@ void Scanner::string()
 	//	Trim the surrounding quotes
 	int length = getLength(start + 1, current - 1);
 	std::string value = source.substr(start + 1, length);
-	addToken(TokenType::STRING_LIT, Literal(value));
+	addToken(TokenType::STRING_LIT, Literal_Token(value));
 }
 
 void Scanner::number()
@@ -204,12 +204,12 @@ void Scanner::number()
 	if (isFloat)
 	{
 		float value = std::stof(source.substr(start, length));
-		addToken(TokenType::FLOAT, Literal(value));
+		addToken(TokenType::FLOAT, Literal_Token(value));
 	}
 	else
 	{
 		int value = std::stoi(source.substr(start, length));
-		addToken(TokenType::INTEGER, Literal(value));
+		addToken(TokenType::INTEGER, Literal_Token(value));
 	}
 }
 

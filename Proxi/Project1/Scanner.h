@@ -13,7 +13,7 @@ public:
 	std::vector<Token> scanTokens();
 	
 private:
-	Literal nullLiteral;
+	Literal_Token nullLiteral;
 
 	int start;
 	int current;
@@ -28,7 +28,7 @@ private:
 	void scanToken();
 	char advance();
 	void addToken(TokenType type);
-	void addToken(TokenType type, Literal lit);
+	void addToken(TokenType type, Literal_Token lit);
 	bool match(char expected);	//	checks if two characters are equal, advances if tey are
 	char peek();
 	char peekNext();
