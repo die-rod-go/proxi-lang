@@ -27,10 +27,10 @@ Token::Token(TokenType type, std::string lexeme, Literal_Token lit, int line):
 	emplaceMap();
 }
 
-std::string Token::toString()
+std::string Token::toString() const
 {
-	//return lexeme;
-	return "type: " + enumStrings.at(type) + (std::string)"\nlexeme: " + lexeme + (std::string)"\nline: " + std::to_string(line);
+	return lexeme;
+	//return "type: " + enumStrings.at(type) + (std::string)"\nlexeme: " + lexeme + (std::string)"\nline: " + std::to_string(line);
 }
 
 void Token::emplaceMap()

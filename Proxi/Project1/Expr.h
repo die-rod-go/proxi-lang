@@ -9,39 +9,39 @@ class Visitor;
 
 class Expr {
 public:
-	virtual Expr accept(Visitor& visitor) { };
-	virtual std::string toString() const { };
+	virtual Expr accept(Visitor& visitor) { Expr temp; return temp; };
+	virtual std::string toString() const { std::string temp; return temp; };
 };
 
 class Visitor {
 public:
-	virtual Expr visitBinaryExpr(Binary& expr) { };
-	virtual Expr visitGroupingExpr(Grouping& expr) { };
-	virtual Expr visitLiteralExpr(Literal& expr) { };
-	virtual Expr visitUnaryExpr(Unary& expr) { };
+	virtual Expr visitBinaryExpr(Binary &expr) { Expr temp; return temp; };
+	virtual Expr visitGroupingExpr(Grouping &expr) { Expr temp; return temp; };
+	virtual Expr visitLiteralExpr(Literal &expr) { Expr temp; return temp; };
+	virtual Expr visitUnaryExpr(Unary &expr) { Expr temp; return temp; };
 };
 
 class Binary : public Expr {
 public:
-	Binary(Expr &left, Token oper, Expr &right) : left(left), oper(oper), right(right) { }
+	Binary(Expr &left, Token oper, Expr &right) : left(&left), oper(oper), right(&right) { }
 
 	Expr accept(Visitor &visitor) {
 		return visitor.visitBinaryExpr(*this);
 	}
 
-	const Expr &left;
+	const Expr *left;
 	const Token oper;
-	const Expr &right;
+	const Expr *right;
 };
 
 class Grouping : public Expr {
 public:
-	Grouping(Expr expression) : expression(expression) { }
+	Grouping(Expr expression) : expression(&expression) { }
 	Expr accept(Visitor &visitor) {
 		return visitor.visitGroupingExpr(*this);
 	}
 
-	const Expr &expression;
+	const Expr *expression;
 };
 
 class Literal : public Expr {
@@ -56,11 +56,13 @@ public:
 
 class Unary : public Expr {
 public:
-	Unary(Token oper, Expr& expr) : oper(oper), right(expr) { }
+	Unary(Token oper, Expr& expr) : oper(oper), right(&expr) { }
 	Expr accept(Visitor& visitor) {
 		return visitor.visitUnaryExpr(*this);
 	}
 
 	const Token oper;
-	const Expr& right;
+	const Expr *right;
 };
+
+

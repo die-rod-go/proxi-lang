@@ -29,13 +29,15 @@ class Literal_Token
 {
 public:
 	bool isNull = true;
-	std::string stringLit;
 	TokenType type;
 	
 	int iValue;
 	float fValue;
 	std::string sValue;
 	bool bValue;
+
+	Literal_Token()
+	{ }
 
 	Literal_Token(int intLit)
 	{
@@ -53,7 +55,7 @@ public:
 
 	Literal_Token(std::string stringLit)
 	{
-		this->stringLit = stringLit;
+		this->sValue = sValue;
 		this->isNull = false;
 		this->type = TokenType::STRING_LIT;
 	}
@@ -74,15 +76,16 @@ public:
 		this->type = TokenType::NOV;
 	}
 
-	std::string toString()
+	std::string toString() const
 	{
 		if (type == TokenType::INTEGER)
 			return std::to_string(iValue);
-		else if (type == TokenType::FLOAT)
+		else if (type == TokenType::FLOATING_POINT)
 			return std::to_string(fValue);
-		else if (type == TokenType::STRING)
+		else if (type == TokenType::STRING_LIT)
 			return sValue;
-		//else if()
+		else if (type == TokenType::TRUE || type == TokenType::FALSE)
+			return bValue ? "true" : "false";
 	}
 
 	~Literal_Token()
@@ -98,12 +101,13 @@ public:
 	const std::string lexeme;
 	const Literal_Token lit;
 	const int line;
+	
 	Token(TokenType type, std::string lexeme, Literal_Token lit, int line);
-	std::string toString();
+	std::string toString() const;
+	std::unordered_map<TokenType, std::string> enumStrings;	//	for outputting enums - mostly for debugging
 
 
 private:
-	std::unordered_map<TokenType, std::string> enumStrings;	//	for outputting enums - mostly for debugging
 	void emplaceMap();
 
 };
