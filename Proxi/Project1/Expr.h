@@ -16,8 +16,8 @@ class Visitor;
 template <typename T>
 class Expr {
 public:
-	virtual T accept(Visitor<T> *visitor) { std::cout << "Called default accept" << std::endl; T temp; return temp; };
-	virtual std::string toString() const { std::string temp; return temp; };
+	virtual T accept(Visitor<T> *visitor) const { std::cout << "Called default accept" << std::endl; T temp; return temp; };
+	//virtual std::string toString() const { std::string temp; return temp; };
 };
 
 template <typename T>
@@ -33,7 +33,7 @@ template <typename T>
 class Binary : public Expr<T> {
 public:
 	Binary(Expr<T> &left, Token oper, Expr<T> &right) : left(&left), oper(oper), right(&right) { }
-	T accept(Visitor<T> *visitor) {
+	T accept(Visitor<T> *visitor) const {
 		return visitor->visitBinaryExpr(*this);
 	}
 
@@ -46,7 +46,7 @@ template <typename T>
 class Grouping : public Expr<T> {
 public:
 	Grouping(Expr<T> &expression) : expression(&expression) { }
-	T accept(Visitor<T> *visitor) {
+	T accept(Visitor<T> *visitor) const {
 		return visitor->visitGroupingExpr(*this);
 	}
 
@@ -57,7 +57,7 @@ template <typename T>
 class Literal : public Expr<T> {
 public:
 	Literal(Literal_Token lit) : lit(lit) { };
-	T accept(Visitor<T> *visitor) {
+	T accept(Visitor<T> *visitor) const {
 		return visitor->visitLiteralExpr(*this);
 	}
 
@@ -68,7 +68,7 @@ template <typename T>
 class Unary : public Expr<T> {
 public:
 	Unary(Token oper, Expr<T> &right) : oper(oper), right(&right) { }
-	T accept(Visitor<T> *visitor) {
+	T accept(Visitor<T> *visitor) const {
 		return visitor->visitUnaryExpr(*this);
 	}
 

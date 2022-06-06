@@ -13,7 +13,7 @@ public:
 	std::string visitUnaryExpr(Unary<std::string> expr);
 
 private:
-	std::string parenthesize(std::string name, std::vector<Expr<std::string>*> exprs);
+	std::string parenthesize(std::string name, std::vector<Expr<std::string> const*> exprs);
 
 };
 
