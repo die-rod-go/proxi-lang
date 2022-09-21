@@ -6,6 +6,19 @@ Parser<T>::Parser(std::vector<Token> tokens) : tokens(tokens)
 }
 
 template<typename T>
+Expr<T> Parser<T>::parse()
+{
+	try
+	{
+		return expression();
+	}
+	catch (ParseError error)
+	{
+		return NULL;
+	}
+}
+
+template<typename T>
 Expr<T> Parser<T>::expression()
 {
 	return equality();
@@ -49,7 +62,7 @@ Expr<T> Parser<T>::term()
 	while (match({ MINUS, PLUS }))
 	{
 		Token oper = previous();
-		Expr right = factor();
+		Expr<T> right = factor();
 		expr = Binary<T>(expr, oper, right);
 	}
 
@@ -77,8 +90,8 @@ Expr<T> Parser<T>::unary()
 	if (match({ BANG, MINUS }))
 	{
 		Token oper = previous();
-		Expr right = unary();
-		return unary(oper, right);
+		Expr<T> right = unary();
+		return Unary<T>(oper, right);
 	}
 
 	return primary();
@@ -100,9 +113,11 @@ Expr<T> Parser<T>::primary()
 	if (match(LEFT_PAREN))
 	{
 		Expr expr = expression();
-		consume(RIGHT_BRACE, "Expect ')' after expression.");
+		consume(RIGHT_PAREN, "Expect ')' after expression.");
 		return Grouping<T>(expr);
 	}
+
+	throw error(peek(), "Expect expression");
 }
 
 template<typename T>
@@ -131,7 +146,7 @@ bool Parser<T>::check(TokenType type)
 template<typename T>
 Token Parser<T>::advance()
 {
-	if (isAtEnd())
+	if (!isAtEnd())
 		current++;
 	return previous();
 }
@@ -152,6 +167,41 @@ template<typename T>
 Token Parser<T>::previous()
 {
 	return tokens[current - 1];
+}
+
+template<typename T>
+ParseError Parser<T>::error(Token token, std::string message)
+{
+	//Proxi.error(token, message);
+	ParseError error;
+	return error;
+}
+
+template<typename T>
+void Parser<T>::synchronize()
+{
+	advance();
+
+	while (!isAtEnd())
+	{
+		if (previous().type == SEMICOLON)
+			return;
+
+		switch (peek().type)
+		{
+		case CLASS:
+		case FUN:
+		case INT:
+		case FLOAT:
+		case STRING:
+		case FOR:
+		case IF:
+		case WHILE:
+		case PRINT:
+		case RETURN:
+			return;
+		}
+	}
 }
 
 template<typename T>

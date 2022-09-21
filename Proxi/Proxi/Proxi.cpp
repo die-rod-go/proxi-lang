@@ -1,6 +1,5 @@
 #include "Proxi.h"
 
-
 bool Proxi::hadError = false;
 
 Proxi::Proxi()
@@ -48,15 +47,27 @@ void Proxi::run(std::string source)
 	Scanner scanner(source);
 	std::vector<Token> tokens = scanner.scanTokens();
 
-	for (Token token : tokens)
-	{
-		std::cout << token.toString() << std::endl;
-		std::cout << std::endl;
-	}
+	Parser<std::string> parser(tokens);
+	Expr<std::string> tempExpr = parser.parse();
+	Expr<std::string>* expression = &tempExpr;
+
+	if (hadError)
+		return;
+	AstPrinter tempAst;
+	
+	std::cout << tempAst.print(expression) << std::endl;
 }
 
 void Proxi::report(int line, std::string location, std::string message)
 {
 	std::cout << "[line " + line + std::string("]Error") + location + ": " + message << std::endl;	//	for some weird fucking reason it thinks "" is char so you have to cast it to a string fucking stupid ass
 	hadError = true;
+}
+
+void Proxi::error(Token token, std::string message)
+{
+	if (token.type == END_OF_FILE)
+		report(token.line, " at end", message);
+	else
+		report(token.line, " at '" + token.lexeme + "'", message);
 }

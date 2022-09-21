@@ -1,3 +1,4 @@
+#pragma once
 #include "Token.h"
 
 template <typename T>
@@ -11,6 +12,7 @@ class LiteralExpression;
 
 template <typename T>
 class Unary;
+
 
 template <typename T>
 class Visitor {

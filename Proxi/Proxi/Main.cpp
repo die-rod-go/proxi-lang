@@ -11,9 +11,6 @@ https://craftinginterpreters.com/
 
 int main(int argc, char* argv[])
 {
-	AstPrinter printer;
-	printer.test();
-
 	Proxi proxi;
 	//std::cout << argc << std::endl;
 

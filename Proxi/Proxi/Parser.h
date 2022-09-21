@@ -1,17 +1,21 @@
 #pragma once
+#include "Proxi.h"
 #include "Token.h"
 #include <vector>
 #include "Expr.h"
 #include <string>
+
+class ParseError : std::runtime_error {};
 
 template<typename T>
 class Parser
 {
 public:
 	Parser(std::vector<Token> tokens);
+	Expr<T> parse();
 private:
 	const std::vector<Token> tokens;
-	int current;
+	int current = 0;
 
 	Expr<T> expression();
 	Expr<T> equality();
@@ -28,6 +32,8 @@ private:
 	bool isAtEnd();
 	Token peek();
 	Token previous();
+	ParseError error(Token token, std::string message);
+	void synchronize();
 	Token consume(TokenType type, std::string message);
 };
 
